@@ -1,14 +1,12 @@
 {
-  "name": "calculator",
+  "name": "fabrice_calculator",
   "version": "1.0.0",
-  "description": "Professional Node.js Calculator with Frontend",
+  "description": "Advanced Node.js Calculator with UI, unit conversions, and logical operations",
   "main": "app.js",
   "type": "commonjs",
   "scripts": {
     "start": "node app.js"
   },
-  "author": "Fabrice",
-  "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.1.0"
