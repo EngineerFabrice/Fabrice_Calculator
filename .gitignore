@@ -1,15 +1,2 @@
-# Node modules
 node_modules/
-
-# Logs
-*.log
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Environment files
 .env
-
-# Optional: VS Code settings folder
-.vscode/

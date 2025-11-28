@@ -1,13 +1,13 @@
 {
   "name": "calculator",
   "version": "1.0.0",
-  "description": "Simple Node.js calculator",
+  "description": "Professional Node.js Calculator with Frontend",
   "main": "app.js",
   "type": "commonjs",
   "scripts": {
     "start": "node app.js"
   },
-  "author": "",
+  "author": "Fabrice",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
