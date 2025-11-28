@@ -7,47 +7,43 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="container">
-    <header>
-        <h1>Fabrice Calculator</h1>
-        <button id="themeToggle">Toggle Light/Dark</button>
-    </header>
+<div class="calculator-container">
+  <h1>Fabrice Calculator</h1>
+  <div class="theme-toggle">
+    <button id="toggleTheme">Toggle Dark/Light Mode</button>
+  </div>
+  
+  <div class="calculator">
+    <input type="number" id="num1" placeholder="Number 1">
+    <input type="number" id="num2" placeholder="Number 2">
+    
+    <div class="buttons">
+      <button data-op="add">Add</button>
+      <button data-op="subtract">Subtract</button>
+      <button data-op="multiply">Multiply</button>
+      <button data-op="divide">Divide</button>
+      <button data-op="and">AND</button>
+      <button data-op="or">OR</button>
+      <button data-op="xor">XOR</button>
+    </div>
 
-    <section class="calculator">
-        <h2>Arithmetic & Logical Operations</h2>
-        <input type="number" id="num1" placeholder="Number 1">
-        <input type="number" id="num2" placeholder="Number 2">
-        <select id="operation">
-            <option value="add">Add (+)</option>
-            <option value="subtract">Subtract (-)</option>
-            <option value="multiply">Multiply (*)</option>
-            <option value="divide">Divide (/)</option>
-            <option value="and">AND (&)</option>
-            <option value="or">OR (|)</option>
-            <option value="xor">XOR (^)</option>
-        </select>
-        <button id="calcBtn">Calculate</button>
-        <p id="calcResult"></p>
-    </section>
+    <div class="conversion">
+      <h3>Unit Conversion</h3>
+      <input type="number" id="convertValue" placeholder="Value">
+      <select id="convertType">
+        <option value="km-m">km → m</option>
+        <option value="m-km">m → km</option>
+        <option value="c-f">°C → °F</option>
+        <option value="f-c">°F → °C</option>
+        <option value="kg-g">kg → g</option>
+        <option value="g-kg">g → kg</option>
+      </select>
+      <button id="convertBtn">Convert</button>
+    </div>
 
-    <section class="converter">
-        <h2>Unit & Currency Conversion</h2>
-        <input type="number" id="convValue" placeholder="Value">
-        <select id="convType">
-            <option value="km-to-m">Kilometers → Meters</option>
-            <option value="m-to-km">Meters → Kilometers</option>
-            <option value="kg-to-g">Kg → g</option>
-            <option value="g-to-kg">g → Kg</option>
-            <option value="c-to-f">°C → °F</option>
-            <option value="f-to-c">°F → °C</option>
-            <option value="usd-to-eur">USD → EUR</option>
-            <option value="eur-to-usd">EUR → USD</option>
-        </select>
-        <button id="convBtn">Convert</button>
-        <p id="convResult"></p>
-    </section>
+    <h2 id="result">Result: </h2>
+  </div>
 </div>
-
-<script src="script.js"></script>
+<script src="index.js"></script>
 </body>
 </html>

@@ -1,63 +1,77 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+
 const app = express();
 
+// Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public"))); // serve frontend
+app.use(express.static(path.join(__dirname, "public"))); // Serve static frontend
 
-// Arithmetic operations
-app.post("/calculate", (req, res) => {
-  const { a, b, operation } = req.body;
+// Calculator API routes
+app.post("/add", (req, res) => {
+  const { a, b } = req.body;
+  if (typeof a !== "number" || typeof b !== "number") return res.status(400).json({ error: "Please provide numbers" });
+  res.json({ result: a + b });
+});
 
-  if (typeof a !== "number" || typeof b !== "number") {
-    return res.status(400).json({ error: "Please provide numbers" });
-  }
+app.post("/subtract", (req, res) => {
+  const { a, b } = req.body;
+  if (typeof a !== "number" || typeof b !== "number") return res.status(400).json({ error: "Please provide numbers" });
+  res.json({ result: a - b });
+});
 
-  let result;
+app.post("/multiply", (req, res) => {
+  const { a, b } = req.body;
+  if (typeof a !== "number" || typeof b !== "number") return res.status(400).json({ error: "Please provide numbers" });
+  res.json({ result: a * b });
+});
 
-  switch (operation) {
-    case "add": result = a + b; break;
-    case "subtract": result = a - b; break;
-    case "multiply": result = a * b; break;
-    case "divide": 
-      if (b === 0) return res.status(400).json({ error: "Cannot divide by zero" });
-      result = a / b; 
-      break;
-    case "and": result = a & b; break;
-    case "or": result = a | b; break;
-    case "xor": result = a ^ b; break;
-    default: return res.status(400).json({ error: "Invalid operation" });
-  }
+app.post("/divide", (req, res) => {
+  const { a, b } = req.body;
+  if (typeof a !== "number" || typeof b !== "number") return res.status(400).json({ error: "Please provide numbers" });
+  if (b === 0) return res.status(400).json({ error: "Cannot divide by zero" });
+  res.json({ result: a / b });
+});
 
-  res.json({ result });
+// Logical operations
+app.post("/and", (req, res) => {
+  const { a, b } = req.body;
+  res.json({ result: a & b });
+});
+
+app.post("/or", (req, res) => {
+  const { a, b } = req.body;
+  res.json({ result: a | b });
+});
+
+app.post("/xor", (req, res) => {
+  const { a, b } = req.body;
+  res.json({ result: a ^ b });
 });
 
 // Unit conversions
 app.post("/convert", (req, res) => {
   const { value, type } = req.body;
-  if (typeof value !== "number") return res.status(400).json({ error: "Value must be a number" });
-
   let result;
-  switch(type) {
-    // Distance
-    case "km-to-m": result = value * 1000; break;
-    case "m-to-km": result = value / 1000; break;
-    // Weight
-    case "kg-to-g": result = value * 1000; break;
-    case "g-to-kg": result = value / 1000; break;
-    // Temperature
-    case "c-to-f": result = (value * 9/5) + 32; break;
-    case "f-to-c": result = (value - 32) * 5/9; break;
-    // Currency (example: USD to EUR ~0.91)
-    case "usd-to-eur": result = value * 0.91; break;
-    case "eur-to-usd": result = value / 0.91; break;
+  switch (type) {
+    case "km-m": result = value * 1000; break;
+    case "m-km": result = value / 1000; break;
+    case "c-f": result = (value * 9/5) + 32; break;
+    case "f-c": result = (value - 32) * 5/9; break;
+    case "kg-g": result = value * 1000; break;
+    case "g-kg": result = value / 1000; break;
     default: return res.status(400).json({ error: "Invalid conversion type" });
   }
-
   res.json({ result });
 });
 
+// Serve frontend
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+// Start server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Fabrice Calculator running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Calculator running on port ${PORT}`));
