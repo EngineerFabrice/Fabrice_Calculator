@@ -5,6 +5,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Root route
+app.get("/", (req, res) => {
+  res.send("Welcome to Fabrice Calculator API! Use POST requests to /add, /subtract, /multiply, /divide");
+});
+
 // Calculator routes
 app.post("/add", (req, res) => {
   const { a, b } = req.body;
@@ -31,5 +36,5 @@ app.post("/divide", (req, res) => {
   res.send({ result: a / b });
 });
 
-const PORT = 3000;
-app.listen(PORT, () => console.log(`Calculator server running on http://localhost:${PORT}`));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Calculator server running on port ${PORT}`));
