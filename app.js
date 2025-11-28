@@ -1,77 +1,41 @@
+// app.js
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
 
 const app = express();
-
-// Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public"))); // Serve static frontend
+app.use(express.static(path.join(__dirname, "public")));
 
-// Calculator API routes
-app.post("/add", (req, res) => {
-  const { a, b } = req.body;
-  if (typeof a !== "number" || typeof b !== "number") return res.status(400).json({ error: "Please provide numbers" });
-  res.json({ result: a + b });
+// Simple currency conversion endpoint (example rates)
+app.post("/api/convert-currency", (req, res) => {
+  const { value, from, to } = req.body;
+  if (typeof value !== "number") return res.status(400).json({ error: "Value must be a number" });
+
+  // Example static rates (for demo). Replace with real API if needed.
+  // Rates relative to USD
+  const rates = {
+    USD: 1,
+    EUR: 0.92,
+    GBP: 0.81,
+    RWF: 1450 // example (not accurate)
+  };
+
+  if (!rates[from] || !rates[to]) return res.status(400).json({ error: "Unsupported currency" });
+
+  const usd = value / rates[from];
+  const converted = usd * rates[to];
+  res.json({ result: Number(converted.toFixed(4)), rate: Number((rates[to]/rates[from]).toFixed(6)) });
 });
 
-app.post("/subtract", (req, res) => {
-  const { a, b } = req.body;
-  if (typeof a !== "number" || typeof b !== "number") return res.status(400).json({ error: "Please provide numbers" });
-  res.json({ result: a - b });
-});
-
-app.post("/multiply", (req, res) => {
-  const { a, b } = req.body;
-  if (typeof a !== "number" || typeof b !== "number") return res.status(400).json({ error: "Please provide numbers" });
-  res.json({ result: a * b });
-});
-
-app.post("/divide", (req, res) => {
-  const { a, b } = req.body;
-  if (typeof a !== "number" || typeof b !== "number") return res.status(400).json({ error: "Please provide numbers" });
-  if (b === 0) return res.status(400).json({ error: "Cannot divide by zero" });
-  res.json({ result: a / b });
-});
-
-// Logical operations
-app.post("/and", (req, res) => {
-  const { a, b } = req.body;
-  res.json({ result: a & b });
-});
-
-app.post("/or", (req, res) => {
-  const { a, b } = req.body;
-  res.json({ result: a | b });
-});
-
-app.post("/xor", (req, res) => {
-  const { a, b } = req.body;
-  res.json({ result: a ^ b });
-});
-
-// Unit conversions
-app.post("/convert", (req, res) => {
-  const { value, type } = req.body;
-  let result;
-  switch (type) {
-    case "km-m": result = value * 1000; break;
-    case "m-km": result = value / 1000; break;
-    case "c-f": result = (value * 9/5) + 32; break;
-    case "f-c": result = (value - 32) * 5/9; break;
-    case "kg-g": result = value * 1000; break;
-    case "g-kg": result = value / 1000; break;
-    default: return res.status(400).json({ error: "Invalid conversion type" });
-  }
-  res.json({ result });
-});
-
-// Serve frontend
+// Fallback root
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// Start server
+// 404 json
+app.use((req, res) => res.status(404).json({ error: "Not found" }));
+
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Calculator running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Fabrice Calculator running on port ${PORT}`));
